@@ -1,2 +1,3 @@
 code_check:
-	python -m compileall .
+    python -m compileall .
+    flake8 .

@@ -1,1 +1,2 @@
-print("hello")    
+import os, sys
+print("hello")

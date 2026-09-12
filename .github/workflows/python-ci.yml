@@ -1,4 +1,4 @@
-name: Python CI (simple)
+name: Python CI (PR lint)
 
 on:
   pull_request:
@@ -22,5 +22,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
 
-      - name: Run flake8 on all Python files
-        run: flake8 .
+      - name: Run syntax + formatting check
+        run: make code_check

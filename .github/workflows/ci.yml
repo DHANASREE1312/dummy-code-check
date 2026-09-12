@@ -24,7 +24,8 @@ jobs:
       - name: Run flake8_dummy and save logs
         run: |
           mkdir -p logs
-          tox -e flake8_dummy | tee logs/flake8.log
+          set -o pipefail
+          tox -e flake8_dummy 2>&1 | tee logs/flake8.log
 
       - name: Upload flake8 logs
         if: always()  # runs even if flake8 fails

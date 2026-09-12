@@ -1,0 +1,25 @@
+name: Dummy Flake8 Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  flake8-dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install tox
+        run: pip install tox
+
+      - name: Run flake8_dummy via tox
+        run: tox -e flake8_dummy

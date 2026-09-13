@@ -1,0 +1,35 @@
+name: Dummy Flake8 Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  flake8-dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install tox
+        run: pip install tox
+
+      - name: Run flake8_dummy and save logs
+        run: |
+          mkdir -p logs
+          set -o pipefail
+          tox -e flake8_dummy 2>&1 | tee logs/flake8.log
+
+      - name: Upload flake8 logs
+        if: always()  # runs even if flake8 fails
+        uses: actions/upload-artifact@v4
+        with:
+          name: flake8-logs
+          path: logs/flake8.log

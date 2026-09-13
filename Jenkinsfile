@@ -2,15 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Setup') {
+        stage('Install tox') {
             steps {
-                sh 'python -m pip install --upgrade pip flake8'
+                sh 'pip install tox'
             }
         }
 
-        stage('CodeCheck') {
+        stage('Flake8 Code Check') {
             steps {
-                sh 'make code_check'
+                sh '''
+                    mkdir -p logs
+                    set -o pipefail
+                    tox -e flake8_dummy 2>&1 | tee logs/flake8.log
+                '''
+                archiveArtifacts artifacts: 'logs/flake8.log', onlyIfSuccessful: false
             }
         }
     }
